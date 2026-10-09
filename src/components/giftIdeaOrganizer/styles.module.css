@@ -1,0 +1,82 @@
+.giftIdeaOrganizer {
+    .intro { display: flex; align-items: center; justify-content: space-between; gap: 30px; padding: 28px 0 30px; }
+    .label { color: var(--accent); font-size: 11px; font-weight: 800; letter-spacing: .16em; }
+    .intro h1 { margin-top: 12px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(42px, 5.3vw, 68px); font-weight: 500; line-height: .99; letter-spacing: -.055em; }
+    .description { margin-top: 17px; color: var(--muted); font-size: 16px; }
+    .summaryCard { position: relative; display: flex; min-width: 230px; align-items: center; gap: 14px; padding: 18px 42px 18px 18px; border-radius: 18px; color: #fff9fa; background: #493344; }
+    .giftIcon { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 14px; color: #493344; background: #f2c8d7; font-size: 21px; }
+    .summaryCard div { display: grid; line-height: 1.35; }
+    .summaryCard strong { font-size: 25px; }
+    .summaryCard span:not(.giftIcon) { color: #ddcad4; font-size: 12px; }
+    .cornerIcon { position: absolute; top: 17px; right: 16px; color: #e994b3; }
+    .statsRow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 26px; }
+    .statCard { display: flex; align-items: center; justify-content: space-between; min-height: 78px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+    .statCard span { color: var(--muted); font-size: 13px; }
+    .statCard strong { font-family: Georgia, serif; font-size: 25px; }
+    .statCard small { color: var(--muted); font-family: inherit; font-size: 12px; }
+    .ideaShelf { padding: 26px; border: 1px solid var(--line); border-radius: 21px; background: color-mix(in srgb, var(--card) 78%, var(--paper)); }
+    .shelfHeading { display: flex; align-items: end; justify-content: space-between; gap: 18px; }
+    .shelfHeading h2 { margin-top: 5px; font-family: Georgia, serif; font-size: 29px; letter-spacing: -.03em; }
+    .searchBox { display: flex; width: 235px; align-items: center; gap: 8px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; color: var(--muted); background: var(--paper); }
+    .searchBox svg { width: 16px; flex: 0 0 16px; }
+    .searchBox input { width: 100%; border: 0; outline: 0; background: transparent; font-size: 13px; }
+    .filters { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin: 22px 0 16px; }
+    .tabs { display: flex; gap: 4px; padding: 4px; border-radius: 11px; background: #f1e8eb; }
+    .tabs button { min-height: 34px; padding: 0 14px; border: 0; border-radius: 8px; color: var(--muted); background: transparent; font-size: 12px; font-weight: 650; }
+    .tabs .activeTab { color: #fff; background: #493344; }
+    .personSelect { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 12px; }
+    .personSelect select { min-height: 36px; padding: 0 30px 0 10px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); background: var(--card); }
+    .ideaGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .ideaCard { display: flex; min-height: 204px; flex-direction: column; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+    .cardTop { display: flex; align-items: center; justify-content: space-between; }
+    .giftStamp { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; color: #a14d6b; background: #f7e1e9; }
+    .stamp1 { color: #9f6e42; background: #f6eadc; }
+    .stamp2 { color: #7677a3; background: #eceaf7; }
+    .giftStamp svg { width: 18px; }
+    .iconButton { display: grid; width: 32px; height: 32px; place-items: center; border: 1px solid transparent; border-radius: 8px; color: var(--muted); background: transparent; }
+    .iconButton:hover { border-color: var(--line); box-shadow: 0 2px 8px #53334518; }
+    .iconButton svg { width: 16px; }
+    .recipient { display: flex; justify-content: space-between; gap: 8px; margin-top: 16px; color: var(--accent); font-size: 12px; font-weight: 750; }
+    .recipient span { color: var(--muted); font-size: 11px; font-weight: 500; }
+    .ideaCard h3 { margin-top: 5px; font-size: 16px; font-weight: 700; line-height: 1.35; }
+    .cardBottom { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; padding-top: 15px; color: var(--muted); font-size: 11px; }
+    .cardBottom b { margin-left: 6px; color: var(--ink); font-weight: 700; }
+    .buyButton, .doneButton { min-height: 30px; padding: 0 9px; border: 1px solid var(--line); border-radius: 7px; color: var(--ink); background: var(--paper); font-size: 10px; font-weight: 700; }
+    .doneButton { display: inline-flex; align-items: center; gap: 4px; border-color: #c6ddce; color: #3e7953; background: #eff7f0; }
+    .doneButton svg { width: 13px; }
+    .emptyState { grid-column: 1 / -1; display: grid; min-height: 125px; place-content: center; justify-items: center; gap: 8px; color: var(--muted); font-size: 13px; }
+    .emptyState svg { color: var(--accent); font-size: 21px; }
+    .addForm { display: grid; grid-template-columns: 1.1fr 1.2fr 1fr .9fr .9fr auto; align-items: end; gap: 12px; margin-top: 16px; padding: 19px; border: 1px dashed #d4b8c3; border-radius: 17px; background: #fffafc; }
+    .addIntro { display: flex; align-items: center; gap: 10px; padding-bottom: 5px; }
+    .addIntro > span { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 11px; color: #fff; background: var(--accent); }
+    .addIntro h2 { font-size: 14px; font-weight: 750; }
+    .addIntro p { color: var(--muted); font-size: 11px; }
+    .addForm label { display: grid; gap: 5px; color: var(--muted); font-size: 11px; font-weight: 650; }
+    .addForm input { width: 100%; min-height: 39px; padding: 0 10px; border: 1px solid var(--line); border-radius: 8px; outline-color: var(--accent); background: var(--paper); font-size: 12px; }
+    .addButton { display: flex; min-height: 39px; align-items: center; gap: 7px; padding: 0 13px; border: 0; border-radius: 9px; color: white; background: #493344; font-size: 12px; font-weight: 700; }
+    .addButton svg { width: 15px; }
+    .addButton:hover { box-shadow: 0 4px 12px #49334435; }
+    @media (max-width: 1050px) {
+        .ideaGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .addForm { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .addIntro { grid-column: 1 / -1; }
+    }
+    @media (max-width: 650px) {
+        .intro { align-items: flex-start; flex-direction: column; padding-top: 18px; }
+        .summaryCard { min-width: 0; }
+        .statsRow { grid-template-columns: 1fr; gap: 8px; }
+        .statCard { min-height: 62px; }
+        .ideaShelf { padding: 17px; }
+        .shelfHeading { align-items: stretch; flex-direction: column; }
+        .searchBox { width: 100%; }
+        .filters { align-items: flex-start; flex-direction: column; }
+        .tabs { width: 100%; }
+        .tabs button { flex: 1; padding: 0 7px; }
+        .ideaGrid { grid-template-columns: 1fr; }
+        .ideaCard { min-height: 180px; }
+        .addForm { grid-template-columns: 1fr 1fr; padding: 15px; }
+        .addIntro { grid-column: 1 / -1; }
+        .addForm label:first-of-type { grid-column: 1 / -1; }
+        .addButton { justify-content: center; }
+    }
+}
