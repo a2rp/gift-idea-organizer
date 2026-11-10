@@ -4,6 +4,11 @@ import ConfirmDialog from "../confirmDialog";
 import styles from "./styles.module.css";
 
 const storageKey = "goodthing-gift-ideas";
+const currencyFormatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 2,
+});
 const starterIdeas = [
     { id: 1, recipient: "Nora", gift: "Ceramic pour-over set", occasion: "December", category: "Home", budget: 48, bought: false },
     { id: 2, recipient: "Mateo", gift: "A day at the climbing gym", occasion: "Birthday", category: "Experience", budget: 72, bought: true },
@@ -11,14 +16,47 @@ const starterIdeas = [
     { id: 4, recipient: "Mom", gift: "Japanese garden journal", occasion: "December", category: "Books", budget: 28, bought: false },
 ];
 
+const normalizeIdea = (idea) => {
+    if (!idea || typeof idea !== "object") return null;
+
+    const validId =
+        (typeof idea.id === "string" && idea.id.trim()) ||
+        Number.isSafeInteger(idea.id);
+    const budget = Number(idea.budget ?? 0);
+
+    if (
+        !validId ||
+        typeof idea.recipient !== "string" ||
+        !idea.recipient.trim() ||
+        typeof idea.gift !== "string" ||
+        !idea.gift.trim() ||
+        typeof idea.occasion !== "string" ||
+        typeof idea.category !== "string" ||
+        !Number.isFinite(budget) ||
+        budget < 0 ||
+        typeof idea.bought !== "boolean"
+    ) {
+        return null;
+    }
+
+    return { ...idea, budget };
+};
+
 const readIdeas = () => {
     try {
         const saved = localStorage.getItem(storageKey);
-        return saved ? JSON.parse(saved) : starterIdeas;
+        if (!saved) return starterIdeas;
+
+        const parsed = JSON.parse(saved);
+        return Array.isArray(parsed)
+            ? parsed.map(normalizeIdea).filter(Boolean)
+            : starterIdeas;
     } catch {
         return starterIdeas;
     }
 };
+
+const formatBudget = (amount) => currencyFormatter.format(amount);
 
 const GiftIdeaOrganizer = () => {
     const [ideas, setIdeas] = useState(readIdeas);
@@ -27,9 +65,15 @@ const GiftIdeaOrganizer = () => {
     const [filter, setFilter] = useState("All ideas");
     const [draft, setDraft] = useState({ recipient: "", gift: "", occasion: "", budget: "" });
     const [pendingDelete, setPendingDelete] = useState(null);
+    const [storageError, setStorageError] = useState(false);
 
     useEffect(() => {
-        localStorage.setItem(storageKey, JSON.stringify(ideas));
+        try {
+            localStorage.setItem(storageKey, JSON.stringify(ideas));
+            setStorageError(false);
+        } catch {
+            setStorageError(true);
+        }
     }, [ideas]);
 
     const recipients = useMemo(() => ["All people", ...new Set(ideas.map((idea) => idea.recipient))], [ideas]);
@@ -39,19 +83,22 @@ const GiftIdeaOrganizer = () => {
         const matchesStatus = filter === "All ideas" || (filter === "Bought" ? idea.bought : !idea.bought);
         return matchesText && matchesPerson && matchesStatus;
     });
-    const totalBudget = ideas.reduce((sum, idea) => sum + Number(idea.budget || 0), 0);
+    const totalBudget = ideas.reduce((sum, idea) => sum + idea.budget, 0);
     const boughtCount = ideas.filter((idea) => idea.bought).length;
 
     const addIdea = (event) => {
         event.preventDefault();
         if (!draft.recipient.trim() || !draft.gift.trim()) return;
+        const budget = draft.budget.trim() ? Number(draft.budget) : 0;
+        if (!Number.isFinite(budget) || budget < 0) return;
+
         setIdeas((current) => [{
             id: Date.now(),
             recipient: draft.recipient.trim(),
             gift: draft.gift.trim(),
             occasion: draft.occasion.trim() || "Any time",
             category: "New idea",
-            budget: Number(draft.budget) || 0,
+            budget,
             bought: false,
         }, ...current]);
         setDraft({ recipient: "", gift: "", occasion: "", budget: "" });
@@ -80,9 +127,15 @@ const GiftIdeaOrganizer = () => {
 
             <div className={styles.statsRow}>
                 <div className={styles.statCard}><span>People on your list</span><strong>{recipients.length - 1}</strong></div>
-                <div className={styles.statCard}><span>Set aside so far</span><strong>{"$" + totalBudget}</strong></div>
+                <div className={styles.statCard}><span>Planned budget</span><strong>{formatBudget(totalBudget)}</strong></div>
                 <div className={styles.statCard}><span>Already taken care of</span><strong>{boughtCount} <small>of {ideas.length}</small></strong></div>
             </div>
+
+            {storageError && (
+                <p className={styles.storageNotice} role="status">
+                    Browser storage is unavailable, so changes will not be saved after you leave this page.
+                </p>
+            )}
 
             <section className={styles.ideaShelf} aria-label="Gift ideas">
                 <div className={styles.shelfHeading}>
@@ -101,7 +154,7 @@ const GiftIdeaOrganizer = () => {
                             <div className={styles.cardTop}><span className={styles.giftStamp + " " + styles["stamp" + (index % 3)]}><FiHeart aria-hidden="true" /></span><button type="button" className={styles.iconButton} aria-label={"Delete " + idea.gift} onClick={() => setPendingDelete(idea)}><FiTrash2 aria-hidden="true" /></button></div>
                             <p className={styles.recipient}>{idea.recipient}<span>{idea.occasion}</span></p>
                             <h3>{idea.gift}</h3>
-                            <div className={styles.cardBottom}><span>{idea.category} <b>{"$" + idea.budget}</b></span><button type="button" className={idea.bought ? styles.doneButton : styles.buyButton} onClick={() => toggleBought(idea.id)}>{idea.bought ? <><FiCheck aria-hidden="true" /> Bought</> : "Mark bought"}</button></div>
+                            <div className={styles.cardBottom}><span>{idea.category} <b>{formatBudget(idea.budget)}</b></span><button type="button" className={idea.bought ? styles.doneButton : styles.buyButton} onClick={() => toggleBought(idea.id)}>{idea.bought ? <><FiCheck aria-hidden="true" /> Bought</> : "Mark bought"}</button></div>
                         </article>
                     ))}
                     {visibleIdeas.length === 0 && <div className={styles.emptyState}><FiGift aria-hidden="true" /><p>No gift ideas match. Try another search or add one below.</p></div>}
@@ -113,7 +166,7 @@ const GiftIdeaOrganizer = () => {
                 <label>Gift idea<input required value={draft.gift} onChange={(event) => setDraft({ ...draft, gift: event.target.value })} placeholder="A name or small description" /></label>
                 <label>For<input required value={draft.recipient} onChange={(event) => setDraft({ ...draft, recipient: event.target.value })} placeholder="Recipient name" /></label>
                 <label>Occasion<input value={draft.occasion} onChange={(event) => setDraft({ ...draft, occasion: event.target.value })} placeholder="Birthday, holiday..." /></label>
-                <label>Budget<input type="number" min="0" value={draft.budget} onChange={(event) => setDraft({ ...draft, budget: event.target.value })} placeholder="$" /></label>
+                <label>Budget<input type="number" min="0" step="0.01" value={draft.budget} onChange={(event) => setDraft({ ...draft, budget: event.target.value })} placeholder="$" /></label>
                 <button type="submit" className={styles.addButton}>Save idea <FiPlus aria-hidden="true" /></button>
             </form>
 

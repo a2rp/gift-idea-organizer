@@ -14,6 +14,7 @@
     .statCard span { color: var(--muted); font-size: 13px; }
     .statCard strong { font-family: Georgia, serif; font-size: 25px; }
     .statCard small { color: var(--muted); font-family: inherit; font-size: 12px; }
+    .storageNotice { margin: -12px 0 20px; padding: 12px 14px; border: 1px solid #d9b36b; border-radius: 10px; color: #744f17; background: #fff6df; font-size: 13px; }
     .ideaShelf { padding: 26px; border: 1px solid var(--line); border-radius: 21px; background: color-mix(in srgb, var(--card) 78%, var(--paper)); }
     .shelfHeading { display: flex; align-items: end; justify-content: space-between; gap: 18px; }
     .shelfHeading h2 { margin-top: 5px; font-family: Georgia, serif; font-size: 29px; letter-spacing: -.03em; }

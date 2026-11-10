@@ -1,49 +1,41 @@
-![Project screenshot](./screenshot.png)
-
 # Goodthing: Gift Idea Organizer
 
-Goodthing gives you one quiet place to remember gift ideas, who they are for, and what you planned to spend. It is useful when you hear an idea months before a birthday or holiday.
+Goodthing keeps gift ideas, recipients, occasions, and planned budgets together so you can save an idea before you forget it.
 
-**GitHub Pages URL:** https://a2rp.github.io/gift-idea-organizer/ (available after deployment)
+![Gift Idea Organizer screenshot](./screenshot.png)
 
-## Included
+**Live demo:** [a2rp.github.io/gift-idea-organizer](https://a2rp.github.io/gift-idea-organizer/)
 
-- Save a gift idea with recipient, occasion, and optional budget.
+## Features
+
+- Save an idea with a recipient, occasion, and optional budget.
 - Search by recipient, gift name, or category.
-- Filter by person and by all, to-find, or bought status.
-- Mark ideas bought and see the set-aside total and completion count.
-- Remove an idea only after confirming the named item in a dialog.
+- Filter by recipient and by all, to-find, or bought status.
+- Mark gifts as bought and review the planned budget total.
+- Delete an idea after confirming its name.
 
-## How to use it
+## Data and currency
 
-Search or choose a person to narrow the idea cards. Use Mark bought when you have found a gift. Add a person and gift in the form at the bottom, then save the idea.
-
-## Data and limits
-
-Gift ideas are stored in this browser with localStorage. They do not sync between browsers or devices. Budget totals sum the optional amounts entered for each idea.
-
-This is a browser-only utility. Clearing the browser’s site data removes its saved information.
+Gift ideas are saved in this browser with `localStorage`; they do not sync across browsers or devices. A fresh browser starts with sample ideas. If browser storage is unavailable, the app shows that changes will not persist after you leave. Budget values are displayed in US dollars.
 
 ## Run locally
 
-~~~sh
+```bash
 npm install
 npm run dev
-~~~
+```
 
 ## Checks and deployment
 
-~~~sh
+```bash
 npm run lint
 npm run build
 npm run deploy
-~~~
+```
 
-The deploy command builds the project and publishes the dist directory to the gh-pages branch. It requires the project’s public GitHub repository to be configured as origin.
+The deploy command builds the app and publishes `dist` to the `gh-pages` branch. It requires this public repository to be configured as the Git origin.
 
-## Future improvements
-
-Ideas only. These are not implemented yet:
+## Planned ideas
 
 - Add notes, sizes, and preferred stores to an idea.
 - Group ideas into shared occasion lists.
@@ -51,16 +43,5 @@ Ideas only. These are not implemented yet:
 
 ## Links
 
-- Portfolio: [https://www.ashishranjan.net](https://www.ashishranjan.net)
-- GitHub: [https://github.com/a2rp](https://github.com/a2rp)
-- CodePen: [https://codepen.io/ash1198](https://codepen.io/ash1198)
-- LinkedIn: [https://www.linkedin.com/in/aashishranjan](https://www.linkedin.com/in/aashishranjan)
-- Facebook: [https://www.facebook.com/theash.ashish/](https://www.facebook.com/theash.ashish/)
-- YouTube: [https://www.youtube.com/@ashishranjan-ashz?sub_confirmation=1](https://www.youtube.com/@ashishranjan-ashz?sub_confirmation=1)
-- Email: [mailto:ash.ranjan09@gmail.com](mailto:ash.ranjan09@gmail.com)
-
-## Support
-
-- Support: [https://a2rp-donation-page.netlify.app/](https://a2rp-donation-page.netlify.app/)
-- Buy Me a Coffee: [https://buymeacoffee.com/ashishranjan](https://buymeacoffee.com/ashishranjan)
-- Patreon: [https://www.patreon.com/ashishranjan](https://www.patreon.com/ashishranjan)
+- Portfolio: [ashishranjan.net](https://www.ashishranjan.net/)
+- GitHub: [a2rp](https://github.com/a2rp)
