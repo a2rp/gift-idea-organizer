@@ -4,16 +4,42 @@ import styles from "./styles.module.css";
 
 const ConfirmDialog = ({ title, description, confirmLabel = "Delete", onCancel, onConfirm }) => {
     const cancelRef = useRef(null);
+    const dialogRef = useRef(null);
     useEffect(() => {
         cancelRef.current?.focus();
         const handleKeyDown = (event) => {
-            if (event.key === "Escape") onCancel();
+            if (event.key === "Escape") {
+                event.preventDefault();
+                onCancel();
+                return;
+            }
+
+            if (event.key !== "Tab") return;
+
+            const focusable = dialogRef.current?.querySelectorAll(
+                'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+            );
+            if (!focusable?.length) {
+                event.preventDefault();
+                dialogRef.current?.focus();
+                return;
+            }
+
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
         };
         document.addEventListener("keydown", handleKeyDown);
         return () => document.removeEventListener("keydown", handleKeyDown);
     }, [onCancel]);
     return <div className={styles.overlay} onMouseDown={(event) => { if (event.target === event.currentTarget) onCancel(); }}>
-        <section className={styles.dialog} role="dialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-description">
+        <section ref={dialogRef} className={styles.dialog} role="dialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-description" tabIndex={-1}>
             <span className={styles.icon}><FiAlertTriangle aria-hidden="true" /></span>
             <h2 id="confirm-title">{title}</h2>
             <p id="confirm-description">{description}</p>

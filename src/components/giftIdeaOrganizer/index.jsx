@@ -68,12 +68,16 @@ const GiftIdeaOrganizer = () => {
     const [storageError, setStorageError] = useState(false);
 
     useEffect(() => {
-        try {
-            localStorage.setItem(storageKey, JSON.stringify(ideas));
-            setStorageError(false);
-        } catch {
-            setStorageError(true);
-        }
+        let active = true;
+        queueMicrotask(() => {
+            try {
+                localStorage.setItem(storageKey, JSON.stringify(ideas));
+                if (active) setStorageError(false);
+            } catch {
+                if (active) setStorageError(true);
+            }
+        });
+        return () => { active = false; };
     }, [ideas]);
 
     const recipients = useMemo(() => ["All people", ...new Set(ideas.map((idea) => idea.recipient))], [ideas]);
